@@ -113,10 +113,14 @@ def query_similar(question: str, top_k: int = 4) -> List[Dict[str, Any]]:
     collection = _get_collection()
     embedder = _get_embedder()
 
+    count = collection.count()
+    if count == 0:
+        return []
+
     emb = embedder.encode(question, normalize_embeddings=True).tolist()
     results = collection.query(
         query_embeddings=[emb],
-        n_results=min(top_k, collection.count()),
+        n_results=min(top_k, count),
         include=["documents", "metadatas", "distances"],
     )
 
