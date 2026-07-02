@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Paper Digest Assistant</title>
+  <meta name="description" content="AI-powered research assistant that searches arXiv, summarizes papers, critiques them, and lets you ask follow-up questions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⚗️</span>
+        <span class="logo-text">Research Digest <span class="logo-accent">AI</span></span>
+      </div>
+      <p class="tagline">Multi-agent arXiv research summarizer · Powered by LangGraph + Groq</p>
+    </div>
+  </header>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="container">
+
+    <!-- Search card -->
+    <section class="card search-card" aria-label="Topic search">
+      <h1 class="card-title">Discover Research Papers</h1>
+      <p class="card-subtitle">Enter a research topic and our AI agents will search arXiv, summarize, and rank the most relevant papers for you.</p>
+
+      <form id="searchForm" class="search-form" novalidate>
+        <div class="input-group">
+          <input
+            id="topicInput"
+            type="text"
+            class="topic-input"
+            placeholder="e.g. retrieval augmented generation for code generation"
+            aria-label="Research topic"
+            autocomplete="off"
+            required
+          />
+          <button id="searchBtn" type="submit" class="btn btn-primary" aria-label="Generate digest">
+            <span class="btn-text">Generate Digest</span>
+            <span class="btn-spinner" hidden aria-hidden="true"></span>
+          </button>
+        </div>
+        <p id="searchError" class="error-msg" role="alert" hidden></p>
+      </form>
+
+      <!-- Progress indicator -->
+      <div id="progressArea" class="progress-area" hidden>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p class="progress-label" id="progressLabel">Searching arXiv…</p>
+        <div class="agent-steps" id="agentSteps">
+          <span class="step" id="step-search">🔍 Search</span>
+          <span class="step-arrow">→</span>
+          <span class="step" id="step-summarize">📝 Summarize</span>
+          <span class="step-arrow">→</span>
+          <span class="step" id="step-critique">🔬 Critique</span>
+          <span class="step-arrow">→</span>
+          <span class="step" id="step-rank">📊 Rank</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Digest results -->
+    <section id="digestSection" class="digest-section" hidden aria-live="polite" aria-label="Digest results">
+      <div class="section-header">
+        <h2 id="digestHeading" class="section-title">📄 Digest Results</h2>
+        <span id="paperCount" class="badge"></span>
+      </div>
+      <div id="digestList" class="digest-list" role="list"></div>
+    </section>
+
+    <!-- Chat / Q&A -->
+    <section id="chatSection" class="chat-section" hidden aria-label="Follow-up Q&A">
+      <div class="section-header">
+        <h2 class="section-title">💬 Ask Follow-up Questions</h2>
+        <span class="badge badge-secondary">RAG powered</span>
+      </div>
+      <p class="card-subtitle">Ask anything about the papers above — our RAG agent will answer with citations.</p>
+
+      <div id="chatMessages" class="chat-messages" role="log" aria-live="polite" aria-label="Chat messages"></div>
+
+      <form id="chatForm" class="chat-form" novalidate>
+        <div class="input-group">
+          <input
+            id="chatInput"
+            type="text"
+            class="topic-input chat-input"
+            placeholder="Which paper is most practical for production use?"
+            aria-label="Follow-up question"
+            autocomplete="off"
+          />
+          <button id="chatBtn" type="submit" class="btn btn-secondary" aria-label="Send question">
+            <span class="btn-text">Ask</span>
+            <span class="btn-spinner" hidden aria-hidden="true"></span>
+          </button>
+        </div>
+        <p id="chatError" class="error-msg" role="alert" hidden></p>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <p>Built with LangGraph · Groq llama-3.3-70b · Chroma · FastAPI · sentence-transformers</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
