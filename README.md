@@ -4,6 +4,9 @@
 
 ---
 
+# Name - Sugandh Kumar
+# Roll - 24B0357
+
 ## Problem it Solves
 
 Keeping up with research is overwhelming. A single arXiv search can return hundreds of papers filled with dense notation and field-specific jargon. This assistant solves that by automatically:
@@ -195,20 +198,3 @@ research-digest-assistant/
 
 ---
 
-## Known Limitations & Future Improvements
-
-### Current limitations
-- **Session state is in-memory** — refreshing the page clears the Chroma collection. Digest results are not persisted between server restarts.
-- **Groq free-tier rate limits** — processing 7 papers (14 LLM calls: 7 summaries + 7 critiques) can hit the free-tier rate limit. The code implements exponential backoff, but very large batches may still be slow.
-- **No full-text access** — only arXiv abstracts are processed, not full PDFs. This limits depth of summaries and critique.
-- **Single user / no auth** — clearing the vector store on each new digest request affects all concurrent users.
-
-### Future improvements
-- [ ] Add async processing (run summarize/critique in parallel with `asyncio.gather`)
-- [ ] Fetch and chunk full PDFs from arXiv for richer RAG context
-- [ ] Add persistent user sessions with a database (SQLite or PostgreSQL)
-- [ ] Support additional sources: Semantic Scholar, Google Scholar
-- [ ] Add a "compare papers" mode that shows a side-by-side table
-- [ ] Stream LLM responses to the frontend using SSE for faster perceived performance
-- [ ] Add LangSmith tracing for observability of the LangGraph execution
-- [ ] Containerise with Docker for easy deployment
